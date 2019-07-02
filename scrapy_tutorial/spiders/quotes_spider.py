@@ -3,15 +3,14 @@ import scrapy
 
 class QuotesSpider(scrapy.Spider):
     name = 'quotes'
-    start_urls = ['http://quotes.toscrape.com/']
+    # start_urls = ['http://quotes.toscrape.com/']
 
-    # def start_requests(self):
-    #     urls = [
-    #         'http://quotes.toscrape.com/page/1/',
-    #         'http://quotes.toscrape.com/page/2/',
-    #     ]
-    #     for url in urls:
-    #         yield scrapy.Request(url=url, callback=self.parse)
+    def start_requests(self):
+        url = 'http://quotes.toscrape.com/'
+        tag = getattr(self, 'tag', None)
+        if tag is not None:
+            url = url + 'tag/' + tag
+        yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         for quote in response.css('div.quote'):
