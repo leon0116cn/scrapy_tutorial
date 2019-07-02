@@ -39,7 +39,7 @@ class AuthorSpider(scrapy.Spider):
             yield response.follow(a, self.parse_author)
 
         for a in response.css('li.next a'):
-            yield response.follow(a, callback=self.parse)
+            yield response.follow(a, self.parse)
 
     def parse_author(self, response):
         def extrace_with_css(query):
